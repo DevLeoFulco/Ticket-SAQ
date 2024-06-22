@@ -1,0 +1,34 @@
+{   
+    "search.exclude": {
+        "**/.fvm": true,
+      },
+      "files.exclude": {
+        "**/*.g.dart": true
+      },
+      // Remove from file watching
+      "files.watcherExclude": {
+        "**/.fvm": true,
+      },
+      "workbench.colorCustomizations": {
+        "activityBar.activeBackground": "#ff0000",
+        "activityBar.background": "#ff0000",
+        "activityBar.foreground": "#ffffff",
+        "activityBar.inactiveForeground": "#ffffff",
+        "activityBarBadge.background": "#000000",
+        "activityBarBadge.foreground": "#ffffff",
+        "commandCenter.border": "#ffffff",
+        "sash.hoverBorder": "#ff0000",
+        "statusBar.background": "#ff0000",
+        "statusBar.foreground": "#ffffff",
+        "statusBarItem.hoverBackground": "#ff0000",
+        "statusBarItem.remoteBackground": "#ff0000",
+        "statusBarItem.remoteForeground": "#ffffff",
+        "titleBar.activeBackground": "#ff0000",
+        "titleBar.activeForeground": "#ffffff",
+        "titleBar.inactiveBackground": "#ffffff",
+        "titleBar.inactiveForeground": "#ffffff"
+      },
+      "peacock.color": "#ffffff",
+    "dart.flutterSdkPath": "C:\\Users\\leand\\.puro\\envs\\ticket\\flutter",
+    "dart.sdkPath": "C:\\Users\\leand\\.puro\\envs\\ticket\\flutter\\bin\\cache\\dart-sdk"
+}
