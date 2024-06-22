@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'controller/ticket_controller.dart';
 import 'view/developer_view.dart';
 import 'view/user_view.dart';
+import 'view/criar_ticket_view.dart';
+import 'view/check_ticket_view.dart';
 
 
 void main() {
@@ -33,9 +35,10 @@ class HomeView extends StatelessWidget{
         actions: [
           DropdownButton<String>(onChanged: (value){
             if (value == 'Desenvolvedor'){
+              //Parte onde devo solicitar a chave de acesso
               Get.to(DeveloperView());
             }else{
-              Get.to(UserView);
+              Get.to(UserView());
             }
           },
           items: [
@@ -47,7 +50,23 @@ class HomeView extends StatelessWidget{
         ],
       ),
           body: Center(
-            child: Text('Bem vindo ao sistema de tickets!'),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: (){
+                    Get.to(CriarTicketView());
+                  } , 
+                  child: Text('Abrir Ticket'),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: (){
+                      Get.to(CheckTicketView());
+                    } , 
+                    child: Text('Consultar Ticket'))
+              ],
+            ),
           ),
     );
       
