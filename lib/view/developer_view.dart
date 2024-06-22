@@ -4,35 +4,29 @@ import 'package:ticket_suporte/model/ticket_model.dart';
 
 import '../controller/ticket_controller.dart';
 
-class DeveloperView extends StatelessWidget{
-  final TicketController ticketController= Get.find();
+class DeveloperView extends StatelessWidget {
+  final TicketController ticketController = Get.find();
 
-  @override  
-  Widget build(BuildContext context){
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Desenvolvedor - Tickets Abertos'),
       ),
       body: Obx(
-        ()=> ListView.builder(
+        () => ListView.builder(
           itemCount: ticketController.tickets.length,
-          itemBuilder: (context, index){
+          itemBuilder: (context, index) {
             var ticket = ticketController.tickets[index];
             return ListTile(
               title: Text(ticket.title),
               subtitle: Text('Solicitado por ${ticket.name} em ${ticket.requestDate}'),
               trailing: Icon(
                 Icons.circle,
-                color: ticket.status == "Cinza"
-                ?Colors.grey
-                :ticket.status == "Amarelo"
-                ?Colors.yellow
-                :ticket.status == "Vermelho"
-                ?Colors.red
-                :Colors.green,
+                color: ticket.statusColor, // Usando a propriedade statusColor
               ),
               onTap: () {
-                Get.to(TicketDetailView(ticket:ticket));
+                Get.to(TicketDetailView(ticket: ticket));
               },
             );
           },
@@ -40,17 +34,16 @@ class DeveloperView extends StatelessWidget{
       ),
     );
   }
-
 }
 
 class TicketDetailView extends StatelessWidget {
   final Ticket ticket;
-  final descriptionController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
 
   TicketDetailView({required this.ticket});
 
-  @override   
-  Widget build (BuildContext context){
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Detalhes do Ticket'),
@@ -59,44 +52,54 @@ class TicketDetailView extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children:[
-            Text('Nome: ${ticket.name}'),
-            Text('Emrpresa: ${ticket.company}'),
-            Text('Cargo: ${ticket.role}'),
-            Text('Setor: ${ticket.sector}'),
-            Text('Titulo: ${ticket.title}'),
-            Text('Descrição: ${ticket.description}'),
-            Text('Modulo: ${ticket.module}'),
-            Text('Área da plataforma: ${ticket.platformArea}'),
-            Text('Data da solicitação: ${ticket.requestDate}'),
-            TextFormField(
-              controller: descriptionController,
-              decoration: InputDecoration(labelText: 'Motivo da pendência (se houver)'),
+          children: [
+            _buildDetailRow('Nome:', ticket.name),
+            _buildDetailRow('Empresa:', ticket.company),
+            _buildDetailRow('Cargo:', ticket.role),
+            _buildDetailRow('Setor:', ticket.sector),
+            _buildDetailRow('Título:', ticket.title),
+            _buildDetailRow('Descrição:', ticket.description),
+            _buildDetailRow('Módulo:', ticket.module),
+            _buildDetailRow('Área da plataforma:', ticket.platformArea),
+            _buildDetailRow('Data da solicitação:', ticket.requestDate.toString()),
+            SizedBox(height: 20),
+            Text(
+              'Motivo da Pendência (se houver):',
+              style: TextStyle(fontWeight: FontWeight.bold),
             ),
+            TextField(
+              controller: descriptionController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: 'Descreva o motivo da pendência',
+              ),
+              maxLines: 3,
+            ),
+            SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 ElevatedButton(
-                  onPressed: (){
+                  onPressed: () {
                     Get.find<TicketController>().updateTicketStatus(ticket.protocol, "Amarelo");
-                    Get.back();  
-                  }, 
+                    Get.back();
+                  },
                   child: Text('Aceito'),
-                  ),
-                  ElevatedButton(
-                  onPressed: (){
+                ),
+                ElevatedButton(
+                  onPressed: () {
                     Get.find<TicketController>().updateTicketStatus(ticket.protocol, "Vermelho", reason: descriptionController.text);
-                    Get.back();  
-                  }, 
+                    Get.back();
+                  },
                   child: Text('Pendente'),
-                  ),
-                  ElevatedButton(
-                  onPressed: (){
+                ),
+                ElevatedButton(
+                  onPressed: () {
                     Get.find<TicketController>().updateTicketStatus(ticket.protocol, "Verde");
-                    Get.back();  
-                  }, 
+                    Get.back();
+                  },
                   child: Text('Concluído'),
-                  ),
+                ),
               ],
             ),
           ],
@@ -105,4 +108,22 @@ class TicketDetailView extends StatelessWidget {
     );
   }
 
+  Widget _buildDetailRow(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: Text(value),
+          ),
+        ],
+      ),
+    );
+  }
 }

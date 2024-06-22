@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class Ticket {
   final String protocol;
   final String name;
@@ -27,6 +29,19 @@ class Ticket {
   this.pendingReason,
 
 });
+
+Color get statusColor {
+  switch (status){
+    case 'Amarelo':
+      return Colors.yellow;
+    case 'Vermelho':
+      return Colors.red;
+    case 'Verde':
+      return Colors.green;
+    default:
+      return Colors.grey;    
+  }
+}
 
 }
 
